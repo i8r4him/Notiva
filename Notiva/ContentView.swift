@@ -19,11 +19,15 @@ struct ContentView: View {
                 CalendarView()
             }
             
-            Tab("Focus", systemImage: "note.text") {
+            Tab("Focus", systemImage: "timer") {
                 FocusView()
             }
             
-            Tab("Settings", systemImage: "gear") {
+            Tab("Progress", systemImage: "chart.bar") {
+                ProgressView()
+            }
+            
+            Tab("Settings", systemImage: "gearshape") {
                 SettingsView()
             }
         }
