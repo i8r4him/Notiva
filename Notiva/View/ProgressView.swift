@@ -9,7 +9,10 @@ import SwiftUI
 
 struct ProgressView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            ContentUnavailableView("Coming Soon", systemImage: "chart.bar", description: Text("Not yet implemented"))
+                .navigationTitle("Progress")
+        }
     }
 }
 

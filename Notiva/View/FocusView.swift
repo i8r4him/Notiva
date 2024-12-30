@@ -9,7 +9,10 @@ import SwiftUI
 
 struct FocusView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            ContentUnavailableView("Coming Soon", systemImage: "timer", description: Text("Not yet implemented"))
+                .navigationTitle("Focus")
+        }
     }
 }
 
