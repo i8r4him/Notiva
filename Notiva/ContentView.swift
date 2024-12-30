@@ -20,37 +20,34 @@ struct ContentView: View {
     }
     
     var body: some View {
-        
         TabView(selection: $selection) {
             Tab("Home", systemImage: "house", value: Tabs.home) {
                 HomeView()
             }
             .customizationBehavior(.disabled, for: .sidebar, .tabBar)
-            
-    
+
             Tab("Calendar", systemImage: "calendar", value: .calendar) {
                 CalendarView()
             }
             .customizationID(Tabs.calendar.customizationID)
 
-            
             Tab("Focus", systemImage: "timer", value: Tabs.focus) {
                 FocusView()
             }
             .customizationID(Tabs.focus.customizationID)
 
-            
             Tab("Progress", systemImage: "chart.bar", value: Tabs.progress) {
                 ProgressView()
             }
             .customizationID(Tabs.progress.customizationID)
 
-            
-            Tab("Settings", systemImage: "gearshape", value: Tabs.settings) {
-                SettingsView()
+            // Conditionally include the Settings tab for iPhone devices only
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                Tab("Settings", systemImage: "gearshape", value: Tabs.settings) {
+                    SettingsView()
+                }
+                .customizationID(Tabs.settings.customizationID)
             }
-            .customizationID(Tabs.settings.customizationID)
-
         }
         .tabViewStyle(.sidebarAdaptable)
         .tabViewCustomization($customization)
