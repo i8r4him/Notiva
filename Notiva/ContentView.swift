@@ -26,7 +26,7 @@ struct ContentView: View {
             }
             .customizationBehavior(.disabled, for: .sidebar, .tabBar)
 
-            Tab("Calendar", systemImage: "calendar", value: .calendar) {
+            Tab("Calendar", systemImage: "calendar", value: Tabs.calendar) {
                 CalendarView()
             }
             .customizationID(Tabs.calendar.customizationID)
