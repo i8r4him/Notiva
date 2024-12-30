@@ -12,6 +12,9 @@ struct SettingsView: View {
         NavigationStack {
             ContentUnavailableView("Coming Soon", systemImage: "gearshape", description: Text("Not yet implemented"))
                 .navigationTitle("Settings")
+                .navigationBarTitleDisplayMode(
+                    UIDevice.current.userInterfaceIdiom == .phone ? .automatic : .inline
+                )
         }
     }
 }
