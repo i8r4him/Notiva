@@ -49,9 +49,6 @@ struct SettingsView: View {
                     NavigationLink(destination: Text("Date & Time")) {
                         Label("Date & Time", systemImage: "calendar.badge.clock")
                     }
-                    NavigationLink(destination: Text("Widgets")) {
-                        Label("Widgets", systemImage: "widget.small.badge.plus")
-                    }
                     NavigationLink(destination: Text("General")) {
                         Label("General", systemImage: "slider.horizontal.below.square.and.square.filled")
                     }
@@ -69,6 +66,9 @@ struct SettingsView: View {
 
                 // Help & Feedback
                 Section(header: Text("Help & Feedback")) {
+                    NavigationLink(destination: Text("Request a Feature")) {
+                        Label("Request a Feature", systemImage: "exclamationmark.bubble.fill")
+                    }
                     NavigationLink(destination: Text("Help & Feedback")) {
                         Label("Help & Feedback", systemImage: "questionmark.bubble.fill")
                     }
