@@ -64,10 +64,13 @@ struct SettingsView: View {
                     NavigationLink(destination: Text("Follow Me")) {
                         Label("Follow Me", systemImage: "person.2.fill")
                     }
+                    NavigationLink(destination: Text("About")) {
+                        Label("About", systemImage: "bookmark.fill")
+                    }
                     Button(action: {
                         // TODO: Add sign out logic
                     }) {
-                        Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right.fill")
+                        Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
                             .foregroundColor(.red)
                     }
                 }
