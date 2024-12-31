@@ -1,0 +1,15 @@
+{
+  "originHash" : "8573ff705fcf9811b21ed5566f6e5689b45fd3301ad574c78fbfa8ae702eda92",
+  "pins" : [
+    {
+      "identity" : "welcome-sheet",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MAJKFL/Welcome-Sheet.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "93332013d3253bcf0f748a008400d542fb9c9c3e"
+      }
+    }
+  ],
+  "version" : 3
+}
