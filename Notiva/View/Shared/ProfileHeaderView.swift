@@ -31,7 +31,6 @@ struct ProfileHeaderView: View {
                 }
             }
         }
-        .padding(.vertical, 8)
     }
 }
 

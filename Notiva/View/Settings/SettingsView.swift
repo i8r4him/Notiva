@@ -27,13 +27,6 @@ struct SettingsView: View {
                     }
                 }
 
-                // Focus Timer
-                Section {
-                    NavigationLink(destination: Text("Focus Timer")) {
-                        Label("Focus Timer", systemImage: "timer")
-                    }
-                }
-
                 // User Preferences
                 Section(header: Text("User Preferences")) {
                     NavigationLink(destination: AppearanceView(viewModel: viewModel)) {
@@ -51,6 +44,9 @@ struct SettingsView: View {
                     NavigationLink(destination: Text("General")) {
                         Label("General", systemImage: "slider.horizontal.below.square.and.square.filled")
                     }
+                    NavigationLink(destination: Text("More")) {
+                        Label("More", systemImage: "ellipsis.circle.fill")
+                    }
                 }
 
                 // Integration
@@ -67,6 +63,12 @@ struct SettingsView: View {
                     }
                     NavigationLink(destination: Text("Follow Me")) {
                         Label("Follow Me", systemImage: "person.2.fill")
+                    }
+                    Button(action: {
+                        // TODO: Add sign out logic
+                    }) {
+                        Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right.fill")
+                            .foregroundColor(.red)
                     }
                 }
 
@@ -93,12 +95,22 @@ struct SettingsView: View {
 
                 // Footer Section
                 Section {
-                    Text("Made with ❤️ by Ibrahim\nVersion 1.0")
-                        .font(.footnote)
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .listRowBackground(Color.clear)
+                    VStack(spacing: 8) {
+                        Text("Made with ❤️ by Ibrahim")
+                            .font(.footnote)
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.secondary)
+                        
+                        Text("Version 1.0")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                        
+                        Link("@i8r4him", destination: URL(string: "https://twitter.com/i8r4him")!)
+                            .font(.footnote)
+                            .foregroundColor(.accentColor)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .listRowBackground(Color.clear)
                 }
             }
             .navigationTitle("Settings")
@@ -108,6 +120,7 @@ struct SettingsView: View {
            .environment(\.symbolRenderingMode, .hierarchical)
             .sheet(isPresented: $viewModel.showTipView) {
                 TipView()
+                    //.presentationDetents([.medium])
             }
             .listStyle(.insetGrouped)
         }
