@@ -40,7 +40,7 @@ struct ContentView: View {
 
             Tab("Focus", systemImage: "timer", value: Tabs.focus) {
                 FocusView()
-            }
+             }
             .customizationID(Tabs.focus.customizationID)
 
             Tab("Progress", systemImage: "chart.bar", value: Tabs.progress) {
@@ -48,8 +48,10 @@ struct ContentView: View {
             }
             .customizationID(Tabs.progress.customizationID)
             
-            Tab(value:.search, role: .search) {
-                
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                Tab(value: .search, role: .search) {
+                    SearchView()
+                }
             }
             
             /*
@@ -60,13 +62,6 @@ struct ContentView: View {
             }
              */
 
-            // Conditionally include the Settings tab for iPhone devices only
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                Tab("Settings", systemImage: "gearshape", value: Tabs.settings) {
-                    SettingsView()
-                }
-                .customizationID(Tabs.settings.customizationID)
-            }
         }
         .tabViewStyle(.sidebarAdaptable)
         .tabViewCustomization($customization)

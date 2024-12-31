@@ -26,6 +26,17 @@ struct SettingsView: View {
                         viewModel.handlePremiumUpgrade() // TODO: Connect to upgrade logic
                     }
                 }
+                
+                // In App Purchases
+                Section(header: Text("In-App Purchases")) {
+                    NavigationLink(destination: Text("In-App Purchases")) {
+                        Label("Your subscriptions", systemImage: "bag.fill.badge.plus")
+                    }
+                    
+                    NavigationLink(destination: Text("Manage Subscriptions")) {
+                        Label("Customer Center", systemImage: "person.2.fill")
+                    }
+                }
 
                 // User Preferences
                 Section(header: Text("User Preferences")) {
@@ -45,7 +56,7 @@ struct SettingsView: View {
                         Label("General", systemImage: "slider.horizontal.below.square.and.square.filled")
                     }
                     NavigationLink(destination: Text("More")) {
-                        Label("More", systemImage: "ellipsis.circle.fill")
+                        Label("Cloud & Backup", systemImage: "externaldrive.fill.badge.icloud")
                     }
                 }
 
@@ -66,12 +77,6 @@ struct SettingsView: View {
                     }
                     NavigationLink(destination: Text("About")) {
                         Label("About", systemImage: "bookmark.fill")
-                    }
-                    Button(action: {
-                        // TODO: Add sign out logic
-                    }) {
-                        Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
-                            .foregroundColor(.red)
                     }
                 }
 
@@ -117,9 +122,7 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(
-               UIDevice.current.userInterfaceIdiom == .phone ? .large : .inline
-           )
+            .navigationBarTitleDisplayMode(.inline)
            .environment(\.symbolRenderingMode, .hierarchical)
             .sheet(isPresented: $viewModel.showTipView) {
                 TipView()
