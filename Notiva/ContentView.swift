@@ -12,7 +12,7 @@ struct ContentView: View {
     @AppStorage("CustomTabcustomization") private var customization: TabViewCustomization
     
     enum Tabs: String {
-        case home, focus, progress, settings, calendar
+        case home, focus, progress, settings, calendar, notes, search
         
         var customizationID: String {
             "com.createchsol.myApp.\(rawValue)"
@@ -20,9 +20,16 @@ struct ContentView: View {
     }
     
     var body: some View {
+        
         TabView(selection: $selection) {
+            
             Tab("Home", systemImage: "house", value: Tabs.home) {
                 HomeView()
+            }
+            .customizationBehavior(.disabled, for: .sidebar, .tabBar)
+            
+            Tab("Notes", systemImage: "book.pages", value: Tabs.notes) {
+                NotesView()
             }
             .customizationBehavior(.disabled, for: .sidebar, .tabBar)
 
@@ -40,6 +47,18 @@ struct ContentView: View {
                 ProgressView()
             }
             .customizationID(Tabs.progress.customizationID)
+            
+            Tab(value:.search, role: .search) {
+                
+            }
+            
+            /*
+            Tab(value: .notes) {
+                NotesView()
+            } label: {
+                Image(systemName: "book.pages")
+            }
+             */
 
             // Conditionally include the Settings tab for iPhone devices only
             if UIDevice.current.userInterfaceIdiom == .phone {
