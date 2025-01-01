@@ -15,20 +15,17 @@ struct HomeView: View {
             ContentUnavailableView("Coming Soon", systemImage: "house", description: Text("Not yet implemented"))
                 .navigationTitle("Home")
                 .toolbar {
-                    // Conditionally add the toolbar item for iPad devices only
-                    if UIDevice.current.userInterfaceIdiom == .pad {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button(action: {
-                                isSettingsSheetPresented = true
-                            }) {
-                                Image(systemName: "gearshape")
-                                    .foregroundStyle(Color.accentColor)
-                            }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            isSettingsSheetPresented = true
+                        }) {
+                            Image(systemName: "gearshape")
+                                .foregroundStyle(Color.accentColor)
                         }
                     }
                 }
                 .sheet(isPresented: $isSettingsSheetPresented) {
-                    SettingsView()
+                    SettingsView(viewModel: SettingsViewModel())
                 }
         }
     }

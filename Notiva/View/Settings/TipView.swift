@@ -13,47 +13,43 @@ struct TipView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                VStack(spacing: 16) {
-                    Image(systemName: "gift.fill")
-                        .font(.largeTitle)
-                        .foregroundColor(.accentColor)
-                    
-                    Text("Your support helps us continue improving the app!")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                }
-                .padding(.top)
-                
-                ScrollView {
-                    VStack(spacing: 16) {
-                        // Small and Little Tips Row
-                        HStack(spacing: 12) {
-                            // Little Tip Button
-                            makeTipButton(for: viewModel.tipOptions[0])
-                                .frame(maxWidth: .infinity, minHeight: 100)
-                                .layoutPriority(1)
-                                .frame(maxWidth: UIScreen.main.bounds.width * 0.3)
-                            
-                            // Small Tip Button
-                            makeTipButton(for: viewModel.tipOptions[1])
-                                .frame(maxWidth: .infinity, minHeight: 100)
-                                .layoutPriority(1)
-                                .frame(maxWidth: UIScreen.main.bounds.width * 0.7)
-                        }
+            ScrollView {
+                VStack(spacing: 32) {
+                    // Thank you section
+                    VStack(spacing: 20) {
+                        Image(systemName: "heart.fill")
+                            .font(.system(size: 60))
+                            .foregroundStyle(.red)
+                            .symbolEffect(.bounce)
+                            .shadow(color: .red.opacity(0.5), radius: 10, x: 0, y: 10)
                         
-                        // Larger Tips
-                        ForEach(Array(viewModel.tipOptions.dropFirst(2))) { option in
+                        Text("Thank You!")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        
+                        Text("Your support means the world to us and helps us continue building amazing features for you.")
+                            .font(.body)
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal)
+                    }
+                    .padding(.top, 20)
+                    
+                    // Tips Grid
+                    LazyVGrid(columns: [
+                        GridItem(.flexible()),
+                        GridItem(.flexible())
+                    ], spacing: 16) {
+                        ForEach(viewModel.tipOptions) { option in
                             makeTipButton(for: option)
-                                .frame(maxWidth: .infinity, minHeight: 100)
+                                .aspectRatio(1.0, contentMode: .fill)
                         }
                     }
                     .padding(.horizontal)
                 }
+                .padding(.bottom)
             }
-            .navigationTitle("Support the Developer")
+            .navigationTitle("Support Notiva")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -64,26 +60,36 @@ struct TipView: View {
             viewModel.handleTipSelection(amount: option.amount) // TODO: Connect to tip logic
             dismiss()
         }) {
-            VStack(spacing: 8) {
+            VStack(spacing: 12) {
+                Circle()
+                    .fill(option.color.opacity(0.2))
+                    .frame(width: 50, height: 50)
+                    .overlay {
+                        Image(systemName: option.title == "Little Tip" ? "heart.fill" :
+                                        option.title == "Small Tip" ? "star.fill" :
+                                        option.title == "Medium Tip" ? "sparkles" :
+                                        "crown.fill")
+                            .font(.title2)
+                            .foregroundStyle(option.color)
+                    }
+                
                 Text(option.title)
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
+                
                 Text(viewModel.currencyFormatter.string(from: NSNumber(value: option.amount)) ?? "")
                     .font(.subheadline)
-                    .foregroundColor(.white)
+                    .fontWeight(.semibold)
+                    .foregroundColor(option.color)
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 16)
-            .background(
-                option.color
-                    .opacity(0.8) // Add opacity to the background
-            )
+            .padding(.vertical, 20)
+            .background(Color.secondary.opacity(0.1))
+            .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(
-                RoundedRectangle(cornerRadius: 15)
-                    .stroke(option.color.opacity(0.3), lineWidth: 2)
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(option.color.opacity(0.3), lineWidth: 4)
             )
-            .cornerRadius(15)
-            .shadow(radius: 4)
         }
     }
 }
