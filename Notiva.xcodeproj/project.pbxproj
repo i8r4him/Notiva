@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8397CC712D24203000601513 /* WelcomeSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 8397CC702D24203000601513 /* WelcomeSheet */; };
+		8397CCFF2D256E8C00601513 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 8397CCFE2D256E8C00601513 /* OpenAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8397CC712D24203000601513 /* WelcomeSheet in Frameworks */,
+				8397CCFF2D256E8C00601513 /* OpenAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +70,7 @@
 			);
 			name = Notiva;
 			packageProductDependencies = (
-				8397CC702D24203000601513 /* WelcomeSheet */,
+				8397CCFE2D256E8C00601513 /* OpenAI */,
 			);
 			productName = Notiva;
 			productReference = 831EF8732D232FA6007F638A /* Notiva.app */;
@@ -101,7 +101,7 @@
 			mainGroup = 831EF86A2D232FA6007F638A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				8397CC6F2D24203000601513 /* XCRemoteSwiftPackageReference "Welcome-Sheet" */,
+				8397CCFD2D256E8C00601513 /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 831EF8742D232FA6007F638A /* Products */;
@@ -350,21 +350,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		8397CC6F2D24203000601513 /* XCRemoteSwiftPackageReference "Welcome-Sheet" */ = {
+		8397CCFD2D256E8C00601513 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MAJKFL/Welcome-Sheet.git";
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		8397CC702D24203000601513 /* WelcomeSheet */ = {
+		8397CCFE2D256E8C00601513 /* OpenAI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8397CC6F2D24203000601513 /* XCRemoteSwiftPackageReference "Welcome-Sheet" */;
-			productName = WelcomeSheet;
+			package = 8397CCFD2D256E8C00601513 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
