@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var selection: Tabs = .home
     @AppStorage("CustomTabcustomization") private var customization: TabViewCustomization
+    @StateObject private var settingsViewModel = SettingsViewModel()
     
     enum Tabs: String {
         case home, focus, progress, settings, calendar, notes, search
@@ -28,11 +29,13 @@ struct ContentView: View {
             }
             .customizationBehavior(.disabled, for: .sidebar, .tabBar)
             
+            /*
             Tab("Notes", systemImage: "book.pages", value: Tabs.notes) {
                 NotesView()
             }
             .customizationBehavior(.disabled, for: .sidebar, .tabBar)
-
+            */
+            
             Tab("Calendar", systemImage: "calendar", value: Tabs.calendar) {
                 CalendarView()
             }
@@ -45,14 +48,23 @@ struct ContentView: View {
 
             Tab("Progress", systemImage: "chart.bar", value: Tabs.progress) {
                 ProgressView()
+                    .environmentObject(settingsViewModel)
             }
             .customizationID(Tabs.progress.customizationID)
             
+            /*
+            Tab("Settings", systemImage: "gearshape", value: Tabs.settings) {
+                SettingsView(viewModel: settingsViewModel)
+            }
+            .customizationID(Tabs.settings.customizationID)
+            */
+            /*
             if UIDevice.current.userInterfaceIdiom == .pad {
                 Tab(value: .search, role: .search) {
                     SearchView()
                 }
             }
+            */
             
             /*
             Tab(value: .notes) {

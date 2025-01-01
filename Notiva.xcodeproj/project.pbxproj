@@ -8,10 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		8397CC712D24203000601513 /* WelcomeSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 8397CC702D24203000601513 /* WelcomeSheet */; };
+		8397CCEC2D24C5C700601513 /* HelpAndFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8397CCEB2D24C5C700601513 /* HelpAndFeedbackView.swift */; };
+		8397CCEE2D24C66600601513 /* RequestFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8397CCED2D24C66600601513 /* RequestFeatureView.swift */; };
+		8397CCF02D24C9DD00601513 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8397CCEF2D24C9DD00601513 /* LoadingIndicator.swift */; };
+		8397CCF22D24CEB500601513 /* ImportIntegrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8397CCF12D24CEB500601513 /* ImportIntegrationView.swift */; };
+		8397CCF42D24D1C500601513 /* CloudBackupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8397CCF32D24D1C500601513 /* CloudBackupView.swift */; };
+		8397CCF62D24D47800601513 /* SoundsNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8397CCF52D24D47800601513 /* SoundsNotificationView.swift */; };
+		8397CCF82D24D50300601513 /* DateTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8397CCF72D24D50300601513 /* DateTimeView.swift */; };
+		8397CCFA2D24D60800601513 /* PremiumUpgradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8397CCF92D24D60800601513 /* PremiumUpgradeView.swift */; };
+		8397CCFC2D24DAA800601513 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8397CCFB2D24DAA800601513 /* UserProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		831EF8732D232FA6007F638A /* Notiva.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notiva.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8397CCEB2D24C5C700601513 /* HelpAndFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndFeedbackView.swift; sourceTree = "<group>"; };
+		8397CCED2D24C66600601513 /* RequestFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFeatureView.swift; sourceTree = "<group>"; };
+		8397CCEF2D24C9DD00601513 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
+		8397CCF12D24CEB500601513 /* ImportIntegrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportIntegrationView.swift; sourceTree = "<group>"; };
+		8397CCF32D24D1C500601513 /* CloudBackupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupView.swift; sourceTree = "<group>"; };
+		8397CCF52D24D47800601513 /* SoundsNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundsNotificationView.swift; sourceTree = "<group>"; };
+		8397CCF72D24D50300601513 /* DateTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeView.swift; sourceTree = "<group>"; };
+		8397CCF92D24D60800601513 /* PremiumUpgradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumUpgradeView.swift; sourceTree = "<group>"; };
+		8397CCFB2D24DAA800601513 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -39,6 +57,15 @@
 			children = (
 				831EF8752D232FA6007F638A /* Notiva */,
 				831EF8742D232FA6007F638A /* Products */,
+				8397CCEB2D24C5C700601513 /* HelpAndFeedbackView.swift */,
+				8397CCED2D24C66600601513 /* RequestFeatureView.swift */,
+				8397CCEF2D24C9DD00601513 /* LoadingIndicator.swift */,
+				8397CCF12D24CEB500601513 /* ImportIntegrationView.swift */,
+				8397CCF32D24D1C500601513 /* CloudBackupView.swift */,
+				8397CCF52D24D47800601513 /* SoundsNotificationView.swift */,
+				8397CCF72D24D50300601513 /* DateTimeView.swift */,
+				8397CCF92D24D60800601513 /* PremiumUpgradeView.swift */,
+				8397CCFB2D24DAA800601513 /* UserProfileView.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -128,6 +155,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8397CCF22D24CEB500601513 /* ImportIntegrationView.swift in Sources */,
+				8397CCF02D24C9DD00601513 /* LoadingIndicator.swift in Sources */,
+				8397CCF42D24D1C500601513 /* CloudBackupView.swift in Sources */,
+				8397CCEE2D24C66600601513 /* RequestFeatureView.swift in Sources */,
+				8397CCFA2D24D60800601513 /* PremiumUpgradeView.swift in Sources */,
+				8397CCF82D24D50300601513 /* DateTimeView.swift in Sources */,
+				8397CCEC2D24C5C700601513 /* HelpAndFeedbackView.swift in Sources */,
+				8397CCF62D24D47800601513 /* SoundsNotificationView.swift in Sources */,
+				8397CCFC2D24DAA800601513 /* UserProfileView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

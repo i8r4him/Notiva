@@ -25,7 +25,7 @@ struct HomeView: View {
                     }
                 }
                 .sheet(isPresented: $isSettingsSheetPresented) {
-                    SettingsView()
+                    SettingsView(viewModel: SettingsViewModel())
                 }
         }
     }
