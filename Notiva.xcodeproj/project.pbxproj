@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		831630452D25A13F00A8FC0F /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 831630442D25A13F00A8FC0F /* RevenueCat */; };
+		831630472D25A13F00A8FC0F /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 831630462D25A13F00A8FC0F /* RevenueCatUI */; };
+		8316304A2D25A1FF00A8FC0F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 831630492D25A1FF00A8FC0F /* StoreKit.framework */; };
 		8397CCFF2D256E8C00601513 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 8397CCFE2D256E8C00601513 /* OpenAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		831630492D25A1FF00A8FC0F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		831EF8732D232FA6007F638A /* Notiva.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notiva.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -27,17 +31,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				831630452D25A13F00A8FC0F /* RevenueCat in Frameworks */,
 				8397CCFF2D256E8C00601513 /* OpenAI in Frameworks */,
+				831630472D25A13F00A8FC0F /* RevenueCatUI in Frameworks */,
+				8316304A2D25A1FF00A8FC0F /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		831630482D25A1FF00A8FC0F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				831630492D25A1FF00A8FC0F /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		831EF86A2D232FA6007F638A = {
 			isa = PBXGroup;
 			children = (
 				831EF8752D232FA6007F638A /* Notiva */,
+				831630482D25A1FF00A8FC0F /* Frameworks */,
 				831EF8742D232FA6007F638A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +87,8 @@
 			name = Notiva;
 			packageProductDependencies = (
 				8397CCFE2D256E8C00601513 /* OpenAI */,
+				831630442D25A13F00A8FC0F /* RevenueCat */,
+				831630462D25A13F00A8FC0F /* RevenueCatUI */,
 			);
 			productName = Notiva;
 			productReference = 831EF8732D232FA6007F638A /* Notiva.app */;
@@ -102,6 +120,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				8397CCFD2D256E8C00601513 /* XCRemoteSwiftPackageReference "OpenAI" */,
+				831630432D25A13F00A8FC0F /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 831EF8742D232FA6007F638A /* Products */;
@@ -350,6 +369,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		831630432D25A13F00A8FC0F /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.14.4;
+			};
+		};
 		8397CCFD2D256E8C00601513 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
@@ -361,6 +388,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		831630442D25A13F00A8FC0F /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 831630432D25A13F00A8FC0F /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+		831630462D25A13F00A8FC0F /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 831630432D25A13F00A8FC0F /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCatUI;
+		};
 		8397CCFE2D256E8C00601513 /* OpenAI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8397CCFD2D256E8C00601513 /* XCRemoteSwiftPackageReference "OpenAI" */;
