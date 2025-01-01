@@ -28,14 +28,7 @@ struct ContentView: View {
                 HomeView()
             }
             .customizationBehavior(.disabled, for: .sidebar, .tabBar)
-            
-            /*
-            Tab("Notes", systemImage: "book.pages", value: Tabs.notes) {
-                NotesView()
-            }
-            .customizationBehavior(.disabled, for: .sidebar, .tabBar)
-            */
-            
+
             Tab("Calendar", systemImage: "calendar", value: Tabs.calendar) {
                 CalendarView()
             }
@@ -51,29 +44,6 @@ struct ContentView: View {
                     .environmentObject(settingsViewModel)
             }
             .customizationID(Tabs.progress.customizationID)
-            
-            /*
-            Tab("Settings", systemImage: "gearshape", value: Tabs.settings) {
-                SettingsView(viewModel: settingsViewModel)
-            }
-            .customizationID(Tabs.settings.customizationID)
-            */
-            /*
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                Tab(value: .search, role: .search) {
-                    SearchView()
-                }
-            }
-            */
-            
-            /*
-            Tab(value: .notes) {
-                NotesView()
-            } label: {
-                Image(systemName: "book.pages")
-            }
-             */
-
         }
         .tabViewStyle(.sidebarAdaptable)
         .tabViewCustomization($customization)
