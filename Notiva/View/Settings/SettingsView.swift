@@ -8,22 +8,41 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @StateObject private var viewModel = SettingsViewModel()
+    @ObservedObject var viewModel: SettingsViewModel
+    @State private var showingUserProfile = false
 
     var body: some View {
         NavigationStack {
-            List {
+            Form {
                 // Profile Section
                 Section {
-                    NavigationLink(destination: Text("User Profile")) {
-                        ProfileHeaderView()
-                    }
+                    ProfileHeaderView()
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            showingUserProfile = true
+                        }
                 }
-
-                // Premium Upgrade
-                Section {
-                    PremiumUpgradeRow {
-                        viewModel.handlePremiumUpgrade() // TODO: Connect to upgrade logic
+                
+                Section(header: Text("Premium")) {
+                        NavigationLink(destination: PremiumUpgradeView()) {
+                            Label {
+                                Text("Upgrade to Premium")
+                                    .foregroundColor(.primary)
+                            } icon: {
+                                Image(systemName: "crown.fill")
+                                    .foregroundColor(.yellow)
+                            }
+                        }
+                    }
+                
+                // In App Purchases
+                Section(header: Text("In-App Purchases")) {
+                    NavigationLink(destination: Text("In-App Purchases")) {
+                        Label("Your subscriptions", systemImage: "bag.fill.badge.plus")
+                    }
+                    
+                    NavigationLink(destination: Text("Manage Subscriptions")) {
+                        Label("Customer Center", systemImage: "person.2.fill")
                     }
                 }
 
@@ -32,54 +51,43 @@ struct SettingsView: View {
                     NavigationLink(destination: AppearanceView(viewModel: viewModel)) {
                         Label("Appearance", systemImage: "paintpalette.fill")
                     }
-                    NavigationLink(destination: Text("Sounds & Notifications")) {
+                    NavigationLink(destination: SoundsNotificationView()) {
                         Label("Sounds & Notifications", systemImage: "bell.badge.fill")
                     }
-                    NavigationLink(destination: Text("Date & Time")) {
+                    NavigationLink(destination: DateTimeView()) {
                         Label("Date & Time", systemImage: "calendar.badge.clock")
-                    }
-                    NavigationLink(destination: Text("Widgets")) {
-                        Label("Widgets", systemImage: "widget.small.badge.plus")
                     }
                     NavigationLink(destination: Text("General")) {
                         Label("General", systemImage: "slider.horizontal.below.square.and.square.filled")
                     }
-                    NavigationLink(destination: Text("More")) {
-                        Label("More", systemImage: "ellipsis.circle.fill")
+                    NavigationLink(destination: CloudBackupView()) {
+                        Label("Cloud & Backup", systemImage: "externaldrive.fill.badge.icloud")
                     }
                 }
 
                 // Integration
                 Section(header: Text("Integration")) {
-                    NavigationLink(destination: Text("Import & Integration")) {
-                        Label("Import & Integration", systemImage: "arrowshape.turn.up.right.circle.fill")
+                    NavigationLink(destination: ImportIntegrationView()) {
+                        Label("Import & Integration", systemImage: "arrow.triangle.merge")
                     }
                 }
 
                 // Help & Feedback
-                Section(header: Text("Help & Feedback")) {
-                    NavigationLink(destination: Text("Help & Feedback")) {
+                Section(header: Text("Help & Support")) {
+                    NavigationLink(destination: RequestFeatureView()) {
+                        Label("Request a Feature", systemImage: "exclamationmark.bubble.fill")
+                    }
+                    NavigationLink(destination: HelpAndFeedbackView()) {
                         Label("Help & Feedback", systemImage: "questionmark.bubble.fill")
-                    }
-                    NavigationLink(destination: Text("Follow Me")) {
-                        Label("Follow Me", systemImage: "person.2.fill")
-                    }
-                    NavigationLink(destination: Text("About")) {
-                        Label("About", systemImage: "bookmark.fill")
-                    }
-                    Button(action: {
-                        // TODO: Add sign out logic
-                    }) {
-                        Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
-                            .foregroundColor(.red)
                     }
                 }
 
                 // What's New & Share
                 Section(header: Text("Notiva")) {
-                    NavigationLink(destination: Text("What's New")) {
+                    NavigationLink(destination: WhatsNewView()) {
                         Label("What's New", systemImage: "text.badge.star")
                     }
+                    
                     Button(action: {
                         // TODO: Share Notiva app logic here
                     }) {
@@ -117,10 +125,19 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(
-               UIDevice.current.userInterfaceIdiom == .phone ? .large : .inline
-           )
-           .environment(\.symbolRenderingMode, .hierarchical)
+            .navigationBarTitleDisplayMode(.inline)
+            .environment(\.symbolRenderingMode, .hierarchical)
+            .sheet(isPresented: $showingUserProfile) {
+                NavigationStack {
+                    UserProfileView()
+                        .navigationTitle("Profile")
+                        .navigationBarItems(
+                            trailing: Button("Done") {
+                                showingUserProfile = false
+                            }
+                        )
+                }
+            }
             .sheet(isPresented: $viewModel.showTipView) {
                 TipView()
                     //.presentationDetents([.medium])
@@ -131,5 +148,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(viewModel: SettingsViewModel())
 }

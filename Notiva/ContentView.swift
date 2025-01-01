@@ -10,9 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @State private var selection: Tabs = .home
     @AppStorage("CustomTabcustomization") private var customization: TabViewCustomization
+    @StateObject private var settingsViewModel = SettingsViewModel()
     
     enum Tabs: String {
-        case home, focus, progress, settings, calendar
+        case home, focus, progress, settings, calendar, notes, search
         
         var customizationID: String {
             "com.createchsol.myApp.\(rawValue)"
@@ -20,12 +21,21 @@ struct ContentView: View {
     }
     
     var body: some View {
+        
         TabView(selection: $selection) {
+            
             Tab("Home", systemImage: "house", value: Tabs.home) {
                 HomeView()
             }
             .customizationBehavior(.disabled, for: .sidebar, .tabBar)
-
+            
+            /*
+            Tab("Notes", systemImage: "book.pages", value: Tabs.notes) {
+                NotesView()
+            }
+            .customizationBehavior(.disabled, for: .sidebar, .tabBar)
+            */
+            
             Tab("Calendar", systemImage: "calendar", value: Tabs.calendar) {
                 CalendarView()
             }
@@ -33,21 +43,37 @@ struct ContentView: View {
 
             Tab("Focus", systemImage: "timer", value: Tabs.focus) {
                 FocusView()
-            }
+             }
             .customizationID(Tabs.focus.customizationID)
 
             Tab("Progress", systemImage: "chart.bar", value: Tabs.progress) {
                 ProgressView()
+                    .environmentObject(settingsViewModel)
             }
             .customizationID(Tabs.progress.customizationID)
-
-            // Conditionally include the Settings tab for iPhone devices only
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                Tab("Settings", systemImage: "gearshape", value: Tabs.settings) {
-                    SettingsView()
-                }
-                .customizationID(Tabs.settings.customizationID)
+            
+            /*
+            Tab("Settings", systemImage: "gearshape", value: Tabs.settings) {
+                SettingsView(viewModel: settingsViewModel)
             }
+            .customizationID(Tabs.settings.customizationID)
+            */
+            /*
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                Tab(value: .search, role: .search) {
+                    SearchView()
+                }
+            }
+            */
+            
+            /*
+            Tab(value: .notes) {
+                NotesView()
+            } label: {
+                Image(systemName: "book.pages")
+            }
+             */
+
         }
         .tabViewStyle(.sidebarAdaptable)
         .tabViewCustomization($customization)

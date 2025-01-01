@@ -1,13 +1,13 @@
 {
-  "originHash" : "8573ff705fcf9811b21ed5566f6e5689b45fd3301ad574c78fbfa8ae702eda92",
+  "originHash" : "0f6fa789e3ccd649ba0dc0bf0e62d112b1bbe417fa1c42d661c1038d7c38a0a3",
   "pins" : [
     {
-      "identity" : "welcome-sheet",
+      "identity" : "openai",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/MAJKFL/Welcome-Sheet.git",
+      "location" : "https://github.com/MacPaw/OpenAI.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "93332013d3253bcf0f748a008400d542fb9c9c3e"
+        "revision" : "843e087929aa806adb611dbca93f9a4a7f28be04",
+        "version" : "0.3.0"
       }
     }
   ],
