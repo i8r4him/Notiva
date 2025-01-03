@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
+    
     @ObservedObject var viewModel: SettingsViewModel
     @State private var showingUserProfile = false
+    
+    @Environment(\.modelContext) private var context
 
     var body: some View {
         NavigationStack {
@@ -149,4 +152,6 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView(viewModel: SettingsViewModel())
+        .modelContainer(for: Major.self)
+        .modelContainer(for: User.self)
 }

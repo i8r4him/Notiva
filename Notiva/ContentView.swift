@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @Environment(\.modelContext) private var context
+    
     @State private var selection: Tabs = .home
+    
     @AppStorage("CustomTabcustomization") private var customization: TabViewCustomization
+    
     @StateObject private var settingsViewModel = SettingsViewModel()
     
     enum Tabs: String {
@@ -64,4 +69,7 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        // Remove modelContainer modifiers from preview
+        .modelContainer(for: Major.self, inMemory: true)
+        //.modelContainer(for: User.self, inMemory: true)
 }
