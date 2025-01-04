@@ -6,35 +6,59 @@
 //
 
 import SwiftUI
+import SwiftData
+import PhotosUI
 
 struct ProfileHeaderView: View {
+    // Remove Query and use passed user
+    var user: User
+    @Environment(\.modelContext) private var context
+    
+    // State for UI
     @State private var userImage: Image? = nil
     @State private var isImagePickerPresented = false
     @State private var isEditingName = false
-    @State private var userName = "Ibrahim Abdullah"
+    @State private var tempName = ""
     @State private var showLevelDetails = false
     @State private var showAwardsDetails = false
     @State private var showStreakDetails = false
+    @State private var selectedItem: PhotosPickerItem? = nil
     
     var body: some View {
         // Remove default padding from HStack
         HStack(alignment: .center, spacing: 4) {
-            // Profile Image
-            (userImage ?? Image(systemName: "person.circle.fill"))
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 65, height: 65)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color.accentColor, lineWidth: 1.5))
-                .onTapGesture {
-                    isImagePickerPresented = true
+            // Profile Image with PhotosPicker
+            Group {
+                if let userImage {
+                    userImage
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                } else {
+                    Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
                 }
+            }
+            .frame(width: 65, height: 65)
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color.accentColor, lineWidth: 1.5))
+            .overlay(alignment: .bottomTrailing) {
+                PhotosPicker(selection: $selectedItem, matching: .images) {
+                    Image(systemName: "pencil.circle.fill")
+                        .symbolRenderingMode(.hierarchical)
+                        .foregroundColor(.accentColor)
+                        .font(.system(size: 20))
+                        .background(Color(uiColor: .systemBackground))
+                        .clipShape(Circle())
+                }
+                .offset(x: 8, y: 8)
+            }
             
             // User Info and Stats
             VStack(alignment: .leading, spacing: 6) {
                 // User Info
                 HStack(spacing: 6) {
-                    Text(userName)
+                    Text(user.name)
                         .font(.headline)
                         .fontWeight(.medium)
                     
@@ -42,6 +66,7 @@ struct ProfileHeaderView: View {
                         .foregroundColor(.accentColor)
                         .font(.system(size: 16))
                         .onTapGesture {
+                            tempName = user.name
                             isEditingName = true
                         }
                 }
@@ -49,22 +74,28 @@ struct ProfileHeaderView: View {
                 // Stats Row
                 HStack(spacing: 16) {
                     // Level
-                    CompactStatView(icon: "leaf.fill",
-                                  iconColor: .green,
-                                  value: "Lv.1",
-                                  action: { showLevelDetails = true })
+                    CompactStatView(
+                        icon: "leaf.fill",
+                        iconColor: .green,
+                        value: "Lv.\(user.level)",
+                        action: { showLevelDetails = true }
+                    )
                     
                     // Awards
-                    CompactStatView(icon: "star.fill",
-                                  iconColor: .yellow,
-                                  value: "6",
-                                  action: { showAwardsDetails = true })
+                    CompactStatView(
+                        icon: "star.fill",
+                        iconColor: .yellow,
+                        value: "\(user.awards)",
+                        action: { showAwardsDetails = true }
+                    )
                     
                     // Streak
-                    CompactStatView(icon: "flame.fill",
-                                  iconColor: .orange,
-                                  value: "3",
-                                  action: { showStreakDetails = true })
+                    CompactStatView(
+                        icon: "flame.fill",
+                        iconColor: .orange,
+                        value: "\(user.streak)",
+                        action: { showStreakDetails = true }
+                    )
                 }
                 .font(.subheadline)
             }
@@ -73,28 +104,61 @@ struct ProfileHeaderView: View {
             Spacer(minLength: 0) // Update Spacer to have minimum length of 0
             
             // Premium badge if needed
-            Image(systemName: "crown.fill")
-                .foregroundColor(.yellow)
-                .font(.system(size: 18))
-                .opacity(0.7)
-                .padding(.trailing, 4) // Add small trailing padding
+            if user.isPremium {
+                Image(systemName: "crown.fill")
+                    .foregroundColor(.yellow)
+                    .font(.system(size: 18))
+                    .opacity(0.7)
+                    .padding(.trailing, 4) // Add small trailing padding
+            }
         }
         .padding(.vertical, 8) // Keep only vertical padding
         .frame(maxWidth: .infinity) // Ensure full width
-        // Sheets remain the same
-        .sheet(isPresented: $isImagePickerPresented) {
-            Text("Image Picker Goes Here") // TODO: Implement image picker
+        .onChange(of: selectedItem) { oldItem, newItem in
+            Task {
+                if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                    user.imageData = data
+                    try? context.save()
+                    if let uiImage = UIImage(data: data) {
+                        userImage = Image(uiImage: uiImage)
+                    }
+                }
+            }
+        }
+        .onAppear {
+            // Load existing image
+            if let imageData = user.imageData,
+               let uiImage = UIImage(data: imageData) {
+                userImage = Image(uiImage: uiImage)
+            }
         }
         .sheet(isPresented: $isEditingName) {
             NavigationStack {
                 Form {
-                    TextField("Name", text: $userName)
+                    TextField("Name", text: $tempName)
+                        .textInputAutocapitalization(.words)
+                        .disableAutocorrection(true)
                 }
                 .navigationTitle("Edit Name")
-                .navigationBarItems(
-                    trailing: Button("Done") { isEditingName = false }
-                )
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Done") {
+                            if !tempName.isEmpty {
+                                user.name = tempName
+                                try? context.save()
+                            }
+                            isEditingName = false
+                        }
+                    }
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") {
+                            isEditingName = false
+                        }
+                    }
+                }
             }
+            .presentationDetents([.height(150)])
         }
         .sheet(isPresented: $showLevelDetails) {
             Text("Level Details View") // TODO: Implement level details
@@ -128,6 +192,5 @@ struct CompactStatView: View {
 }
 
 #Preview {
-    ProfileHeaderView()
-        .padding()
+    ProfileHeaderView(user: User())
 }

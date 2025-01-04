@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import PhotosUI
 
 struct UserProfileView: View {
     @Environment(\.dismiss) private var dismiss
@@ -15,12 +16,14 @@ struct UserProfileView: View {
     // Fetch any users in the database (should only be 0 or 1)
     @Query private var users: [User]
     
-    // For editing the user's name
+    // For editing user's name
     @State private var userName = ""
     @State private var isEditingName = false
     
     // For image picker
     @State private var isImagePickerPresented = false
+    @State private var selectedItem: PhotosPickerItem? = nil
+    @State private var userImage: Image? = nil
     
     /// This computed property guarantees exactly one User.
     /// If none exist, we create one on-the-fly.
@@ -43,68 +46,95 @@ struct UserProfileView: View {
         return newUser
     }
     
+    private var currentUser: User? { users.first }
+    
     var body: some View {
         Form {
             // MARK: - User Image
-            Section {
-                HStack {
-                    Spacer()
-                    Image(systemName: "person.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 100, height: 100)
-                        .clipShape(Circle())
-                        .overlay(
-                            Circle()
-                                .stroke(Color.accentColor, lineWidth: 2)
-                        )
-                        .onTapGesture {
-                            isImagePickerPresented = true
+            if let user = currentUser {
+                Section {
+                    HStack {
+                        Spacer()
+                        PhotosPicker(selection: $selectedItem, matching: .images) {
+                            Group {
+                                if let userImage {
+                                    userImage
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                } else {
+                                    Image(systemName: "person.circle.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                }
+                            }
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.accentColor, lineWidth: 2)
+                            )
                         }
-                    Spacer()
-                }
-                .listRowBackground(Color.clear)
-                .padding(.vertical)
-            }
-            
-            // MARK: - Name (Editable)
-            Section(header: Text("Name")) {
-                HStack {
-                    Text("Name")
-                    Spacer()
-                    Text(user.name)
-                        .foregroundColor(.secondary)
-                }
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    // Set up the text field with the current user name
-                    userName = user.name
-                    isEditingName = true
-                }
-            }
-            
-            // MARK: - Stats (Read-Only)
-            Section(header: Text("Stats")) {
-                HStack {
-                    Text("Level")
-                    Spacer()
-                    Text("Lv.\(user.level)")
-                        .foregroundColor(.secondary)
+                        Spacer()
+                    }
+                    .listRowBackground(Color.clear)
+                    .padding(.vertical)
                 }
                 
-                HStack {
-                    Text("Awards")
-                    Spacer()
-                    Text("\(user.awards)")
-                        .foregroundColor(.secondary)
+                // MARK: - Name (Editable)
+                Section(header: Text("Name")) {
+                    HStack {
+                        Text("Name")
+                        Spacer()
+                        Text(user.name)
+                            .foregroundColor(.secondary)
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        userName = user.name
+                        isEditingName = true
+                    }
                 }
                 
-                HStack {
-                    Text("Streak")
-                    Spacer()
-                    Text("\(user.streak) days")
-                        .foregroundColor(.secondary)
+                // MARK: - Stats (Read-Only)
+                Section(header: Text("Stats")) {
+                    HStack {
+                        Text("Level")
+                        Spacer()
+                        Text("Lv.\(user.level)")
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    HStack {
+                        Text("Awards")
+                        Spacer()
+                        Text("\(user.awards)")
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    HStack {
+                        Text("Streak")
+                        Spacer()
+                        Text("\(user.streak) days")
+                            .foregroundColor(.secondary)
+                    }
                 }
+            }
+        }
+        .onChange(of: selectedItem) { oldItem, newItem in
+            Task {
+                if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                    user.imageData = data
+                    try? context.save()
+                    if let uiImage = UIImage(data: data) {
+                        userImage = Image(uiImage: uiImage)
+                    }
+                }
+            }
+        }
+        .onAppear {
+            if let imageData = user.imageData,
+               let uiImage = UIImage(data: imageData) {
+                userImage = Image(uiImage: uiImage)
             }
         }
         .navigationTitle("Profile")
@@ -123,8 +153,10 @@ struct UserProfileView: View {
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button("Done") {
-                            user.name = userName
-                            try? context.save()
+                            if !userName.isEmpty {
+                                user.name = userName
+                                try? context.save()
+                            }
                             isEditingName = false
                         }
                     }
@@ -135,6 +167,7 @@ struct UserProfileView: View {
                     }
                 }
             }
+            .presentationDetents([.height(150)])
         }
         
         // MARK: - Image Picker Sheet
@@ -147,6 +180,6 @@ struct UserProfileView: View {
 #Preview {
     NavigationStack {
         UserProfileView()
-            .modelContainer(for: User.self)
+            .modelContainer(for: User.self, inMemory: true)
     }
 }

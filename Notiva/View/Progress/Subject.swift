@@ -17,6 +17,7 @@ class Subject: Identifiable {
     var credit: Int
     var color: String  // Stores hex color string
     var type: Type
+    @Relationship(deleteRule: .nullify, inverse: \Major.subjects)
     var major: Major?  // Reference to the major this subject belongs to
     
     init(

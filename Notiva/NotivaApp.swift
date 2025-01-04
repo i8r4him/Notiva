@@ -17,16 +17,25 @@ struct NotivaApp: App {
     let container: ModelContainer = {
         do {
             // Create schema for all models
-            let schema = Schema([Major.self, User.self])
+            let schema = Schema([
+                Major.self,
+                User.self,
+                Subject.self  // Add Subject to schema
+            ])
             
-            // Configure the container
-            let config = ModelConfiguration("Notiva", schema: schema)
+            // Configure the container with better error handling
+            let modelConfig = ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false,
+                allowsSave: true
+            )
             
             // Create and return container
-            return try ModelContainer(for: schema, configurations: config)
+            return try ModelContainer(for: schema, configurations: modelConfig)
         } catch {
-            // If container creation fails, use in-memory container
-            fatalError("Could not configure SwiftData container")
+            // Provide better error handling with debug information
+            print("SwiftData Container Error: \(error)")
+            fatalError("Could not configure SwiftData container: \(error.localizedDescription)")
         }
     }()
     

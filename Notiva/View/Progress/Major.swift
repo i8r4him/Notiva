@@ -20,14 +20,19 @@ class Major: Identifiable {
     @Relationship(deleteRule: .cascade)
     var subjects: [Subject] = []
     
+    @Relationship(deleteRule: .nullify, inverse: \User.major)
+    var user: User?
+    
     init(
         id: UUID = UUID(),
         name: String = "",
-        credit: Int = 0
+        credit: Int = 0,
+        user: User? = nil
     ) {
         self.id = id
         self.name = name
         self.credit = credit
+        self.user = user
     }
     
     /// Calculates total credits from all subjects

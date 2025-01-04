@@ -6,24 +6,35 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct SettingsView: View {
     
     @ObservedObject var viewModel: SettingsViewModel
     @State private var showingUserProfile = false
+    @State private var showingOnboarding = false
     
+    @Query private var users: [User]
     @Environment(\.modelContext) private var context
+
+    private var currentUser: User? { users.first }
 
     var body: some View {
         NavigationStack {
             Form {
                 // Profile Section
                 Section {
-                    ProfileHeaderView()
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            showingUserProfile = true
+                    if let user = currentUser {
+                        ProfileHeaderView(user: user)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                showingUserProfile = true
+                            }
+                    } else {
+                        Button("Set Up Profile") {
+                            showingOnboarding = true
                         }
+                    }
                 }
                 
                 Section(header: Text("Premium")) {
@@ -130,6 +141,12 @@ struct SettingsView: View {
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .environment(\.symbolRenderingMode, .hierarchical)
+            .onAppear {
+                // Create default user if none exists
+                if users.isEmpty {
+                    showingOnboarding = true
+                }
+            }
             .sheet(isPresented: $showingUserProfile) {
                 NavigationStack {
                     UserProfileView()
@@ -141,17 +158,61 @@ struct SettingsView: View {
                         )
                 }
             }
+            .sheet(isPresented: $showingOnboarding) {
+                OnboardingUserView(completion: { name in
+                    let newUser = User(
+                        name: name,
+                        level: 1,
+                        awards: 0,
+                        streak: 0,
+                        isPremium: false,
+                        lastLoginDate: Date()
+                    )
+                    context.insert(newUser)
+                    try? context.save()
+                    showingOnboarding = false
+                })
+            }
             .sheet(isPresented: $viewModel.showTipView) {
                 TipView()
-                    //.presentationDetents([.medium])
+                    .presentationDetents([.medium])
             }
             .listStyle(.insetGrouped)
         }
     }
 }
 
+struct OnboardingUserView: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var name = ""
+    let completion: (String) -> Void
+    
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section(header: Text("Welcome to Notiva!")) {
+                    TextField("Your Name", text: $name)
+                        .textInputAutocapitalization(.words)
+                        .disableAutocorrection(true)
+                }
+            }
+            .navigationTitle("Set Up Profile")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Continue") {
+                        if !name.isEmpty {
+                            completion(name)
+                        }
+                    }
+                    .disabled(name.isEmpty)
+                }
+            }
+        }
+    }
+}
+
 #Preview {
     SettingsView(viewModel: SettingsViewModel())
-        .modelContainer(for: Major.self)
-        .modelContainer(for: User.self)
+        .modelContainer(for: User.self, inMemory: true)
 }
