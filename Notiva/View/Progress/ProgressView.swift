@@ -19,6 +19,10 @@ struct ProgressView: View {
     @State private var showingAddMajor = false
     @State private var showingAddSubject = false
     
+    @State private var showingEditSubject = false
+    @State private var selectedSubject: Subject? = nil
+
+    
     // MARK: - Sorting
     enum SortOption {
         case alphabetical
@@ -88,6 +92,23 @@ struct ProgressView: View {
                                                 .foregroundStyle(.secondary)
                                     }
                                     .padding(.vertical, 4)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        withAnimation {
+                                            selectedSubject = subject
+                                            showingEditSubject = true
+                                        }
+                                    }
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                        Button(role: .destructive) {
+                                            withAnimation {
+                                                major.subjects.removeAll { $0.id == subject.id }
+                                                context.delete(subject)
+                                            }
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
                                 }
                                 .onDelete { indexSet in
                                     // Delete from the sorted array
@@ -233,6 +254,13 @@ struct ProgressView: View {
             }
             .navigationTitle("Progress")
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $showingEditSubject, onDismiss: { selectedSubject = nil }) {
+                if let subject = selectedSubject {
+                    EditSubjectView(subject: subject)
+                        .presentationDetents([.medium])
+                        .interactiveDismissDisabled()
+                }
+            }
             .sheet(isPresented: $showingAddMajor) {
                 AddMjorSheet()
                     .presentationDetents([.medium])
@@ -266,8 +294,6 @@ struct ProgressView: View {
         }
     }
 }
-
-// Previous code remains the same
 
 // MARK: - Preview Provider with Sample Data
 struct ProgressView_Previews: PreviewProvider {
