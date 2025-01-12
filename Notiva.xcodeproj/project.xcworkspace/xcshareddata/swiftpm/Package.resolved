@@ -1,6 +1,15 @@
 {
-  "originHash" : "0f6fa789e3ccd649ba0dc0bf0e62d112b1bbe417fa1c42d661c1038d7c38a0a3",
+  "originHash" : "487cdd87ecdf946b90ea246dd5a10d5b4920948bb48620a9ea613217d578ec31",
   "pins" : [
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "state" : {
+        "revision" : "e6749919f9761d573d37a7d7e78b1b854c191d7f",
+        "version" : "8.1.3"
+      }
+    },
     {
       "identity" : "openai",
       "kind" : "remoteSourceControl",
@@ -8,6 +17,15 @@
       "state" : {
         "revision" : "843e087929aa806adb611dbca93f9a4a7f28be04",
         "version" : "0.3.0"
+      }
+    },
+    {
+      "identity" : "purchases-ios-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RevenueCat/purchases-ios-spm.git",
+      "state" : {
+        "revision" : "5d12ca1457689afcb20b7aebdfac3c9f8c8579bf",
+        "version" : "5.14.4"
       }
     }
   ],
